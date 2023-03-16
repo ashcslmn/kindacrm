@@ -4,21 +4,20 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InquiryRequest;
-use Illuminate\Http\Request;
 use App\Models\Inquiry;
+use Illuminate\Http\Request;
 
 class InquiriesController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @param int|null $limit
-     * @param int|null $skip
+     * @param  int|null  $limit
+     * @param  int|null  $skip
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-
         $inquiries = Inquiry::paginate();
 
         return response()->json($inquiries);
@@ -34,7 +33,7 @@ class InquiriesController extends Controller
     {
         $inquiry = Inquiry::create($request->validated());
 
-        return response()->json($inquiry);
+        return response()->json($inquiry, 201);
     }
 
     /**
@@ -53,8 +52,6 @@ class InquiriesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  Inquiry  $inquiry
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Inquiry $inquiry)
@@ -63,7 +60,10 @@ class InquiriesController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
             'subject' => 'string|max:255',
-            'description' => 'string',
+            'description' => 'nullable',
+            'company' => 'nullable',
+            'mobile' => 'nullable',
+            'telephone' => 'nullable',
         ]);
 
         $inquiry->update($validatedData);
@@ -74,7 +74,6 @@ class InquiriesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Inquiry  $inquiry
      * @return \Illuminate\Http\Response
      */
     public function destroy(Inquiry $inquiry)

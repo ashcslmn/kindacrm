@@ -5,23 +5,23 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 
+uses(RefreshDatabase::class);
+
 beforeEach(function () {
     $this->user = User::factory()->create();
     Sanctum::actingAs($this->user);
 });
 
 it('can list all inquiries', function () {
-    $inquiries = Inquiry::factory()->count(3)->create();
+    Inquiry::factory()->count(3)->create();
 
     $response = $this
-        ->withHeaders([
-            'Authorization' => 'Bearer ' . $this->user->createToken('test')->plainTextToken
-        ])
         ->get(route('inquiries.index'));
 
     $response->assertStatus(200)
         ->assertJsonCount(3, 'data')
         ->assertJsonStructure([
+            'current_page',
             'data' => [
                 '*' => [
                     'id',
@@ -31,8 +31,14 @@ it('can list all inquiries', function () {
                     'description',
                     'created_at',
                     'updated_at',
-                ]
-            ]
+                ],
+            ],
+            'next_page_url',
+            'path',
+            'per_page',
+            'prev_page_url',
+            'to',
+            'total',
         ]);
 });
 

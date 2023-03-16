@@ -27,7 +27,10 @@ class InquiryRequest extends FormRequest
             'name' => 'required',
             'email' => 'required|email',
             'subject' => 'nullable',
-            'description' => 'nullable'
+            'description' => 'nullable',
+            'company' => 'nullable',
+            'mobile' => 'nullable',
+            'telephone' => 'nullable',
         ];
     }
 }

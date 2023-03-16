@@ -10,9 +10,12 @@ class Inquiry extends Model
     use HasFactory;
 
     protected $fillable = [
+        'company',
+        'mobile',
+        'telephone',
         'name',
         'email',
         'subject',
-        'description'
+        'description',
     ];
 }
